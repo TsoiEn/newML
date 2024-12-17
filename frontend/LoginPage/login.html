@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css"> <!-- Link to the CSS file -->
+</head>
+<body>
+    <h2>Login</h2>
+    <form id="form">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+
+    <div id="error"></div>
+
+    <script>
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+        const form = document.getElementById('form');
+        const errorElement = document.getElementById('error');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevents the default form submission
+
+            // Validation logic here
+            let message = [];
+            if (username.value === '' || username.value == null) {
+                message.push('Username is required');
+            }
+            if (password.value.length < 6) {
+                message.push('Password must be at least 6 characters');
+            }
+            if (password.value.length > 20) {
+                message.push('Password cannot be more than 20 characters');
+            }
+            if (password.value === 'password') {
+                message.push('Password cannot be "password"');
+            }
+
+            if (message.length > 0) {
+                errorElement.innerText = message.join(', ');
+            } else {
+                // Send login data to the backend via POST request
+                const response = await fetch('http://localhost:5000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username.value,
+                        password: password.value
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    errorElement.innerText = data.message;  // Success message
+                } else {
+                    errorElement.innerText = data.message;  // Error message
+                }
+            }
+        });
+    </script>
+</body>
+</html>

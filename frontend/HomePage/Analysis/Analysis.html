@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Credentials</title>
+    <link rel="stylesheet" href="Analysis.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Hospital Records</h1>
+    </div>
+    <nav class="navbar">
+        <ul>
+            <li><a href="../PatientRecords/patientrec.html">Records</a></li>
+            <li><a1 href="#">Analysis</a1></li>
+            <li><a href="../Predictions/Predictions.html">Predictions</a></li>
+        </ul>
+    </nav>
+    <div class="background">
+        <div class="credentials-container">
+            <section id="analysis-list-section">
+                <table id="analysis-table">
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Fever</th>
+                            <th>Cough</th>
+                            <th>Fatigue</th>
+                            <th>Difficulty Breathing</th>
+                            <th>Blood Pressure</th>
+                            <th>Cholesterole</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .}}
+                        <tr>
+                            <!-- Rows will be dynamically added here -->
+                            <td>{{.Patient ID}}</td>
+                            <td>{{.Fever}}</td>
+                            <td>{{.Cough}}</td>
+                            <td>{{.Fatigue}}</td>
+                            <td>{{.DB}}</td>
+                            <td>{{.BP}}</td>
+                            <td>{{.Cholesterole}}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+
+</body>
+</html>

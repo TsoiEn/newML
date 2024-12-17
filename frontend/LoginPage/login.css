@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: right;
+    padding: 10px 350px 10px 10px ;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(rgba(20, 20, 20, 0.3), rgba(20, 20, 20, 0.6)), 
+                url('HospitalBG.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.logo {
+    border-radius: 4px 0px 0px 4px;
+    padding: 99px 120px 99px 99px;
+    background: #72A0C1;
+}
+
+.wrapper {
+    width: 600px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.upper-wrapper {
+    background: #fff;
+    justify-content: space-around;
+    color: #555;
+    padding: 20px;
+    position: relative;
+}
+
+.upper-wrapper h1{
+    font-size: 24px;
+}
+
+.upper-wrapper p {
+    padding-top: 10px;
+    font-size: 16px;
+}
+
+.lower-wrapper {
+    background: #eee;
+    padding: 20px;
+}
+
+.lower-wrapper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background: #eee;
+    margin: 30px 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border: 2px solid rgba(50, 50, 50, 0.2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #555;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+    font-size: 16px;
+    color: #555
+}
+
+.input-box i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.lower-wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background: #72A0C1;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.lower-wrapper .btn:hover {
+    color: #555;
+}
+
+.lower-wrapper .options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin: 15px 0 15px;
+    padding-top: 10%
+}
+
+.forgot-password {
+    margin-right: 35%;
+}
+
+.options a {
+    color: #72A0C1;
+    text-decoration: none;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+.lower-wrapper .portal {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 16px;
+    padding-top: 5%;
+}

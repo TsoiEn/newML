@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Credentials</title>
+    <link rel="stylesheet" href="patientrec.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Hospital Records</h1>
+    </div>
+    <nav class="navbar">
+        <ul>
+            <li><a1 href="#">Records</a1></li>
+            <li><a href="../Analysis/Analysis.html">Analysis</a></li>
+            <li><a href="../Predictions/Predictions.html">Predictions</a></li>
+        </ul>
+    </nav>
+    <div class="background">
+        <div class="credentials-container">
+            <section id="patient-list-section">
+                <table id="patient-table">
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Disease</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .}}
+                        <tr>
+                            <!-- Rows will be dynamically added here -->
+                            <td>{{.PatientID}}</td>
+                            <td>{{.LastName}}</td>
+                            <td>{{.FirstName}}</td>
+                            <td>{{.Gender}}</td>
+                            <td>{{.Age}}</td>
+                            <td>{{.Disease}}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+
+</body>
+</html>

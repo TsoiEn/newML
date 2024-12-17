@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student Credentials</title>
+    <link rel="stylesheet" href="Predictions.css">
+    <script defer src="script.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Hospital Records</h1>
+    </div>
+    <nav class="navbar">
+        <ul>
+            <li><a href="../PatientRecords/patientrec.html">Records</a></li>
+            <li><a href="../Analysis/Analysis.html">Analysis</a></li>
+            <li><a1 href="#">Predictions</a1></li>
+        </ul>
+    </nav>
+    <div class="background">
+        <div class="credentials-container">
+            <section id="prediction-list-section">
+                <table id="prediction-table">
+                    <thead>
+                        <tr>
+                            <th>Patient ID</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Disease</th>
+                            <th>Prediction</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .}}
+                        <tr>
+                            <!-- Rows will be dynamically added here -->
+                            <td>{{.PatientID}}</td>
+                            <td>{{.LastName}}</td>
+                            <td>{{.FirstName}}</td>
+                            <td>{{.Disease}}</td>
+                            <td>{{.Prediction}}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+                <button id="add-btn">Add Prediction</button>
+            </section>
+        </div>
+    </div>
+
+</body>
+</html>

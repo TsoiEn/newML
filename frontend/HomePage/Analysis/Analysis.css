@@ -1,0 +1,116 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #fff;
+    color: #fff;
+}
+
+.header {
+    background-color: #377eb1;
+    padding: 15px;
+    text-align: left;  
+    margin: 0px 0px 0px 120px; 
+}
+
+.header h1 {
+    font-size: 24px;
+    margin: 0 25px;
+    margin: 0px 0px 0px 00px; 
+}
+
+.navbar {
+    height: 100%; 
+    width: 120px; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    background-color: #377eb1;
+    padding-top: 70px; 
+}
+
+.navbar ul {
+    text-align: left;
+    width: 120px;
+}
+
+.navbar li a{
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 0%;
+}
+
+.navbar a1 {
+    color:#72A0C1;
+    padding: 8px 40px 5px 23px;
+    background-color: #fff;
+    margin: 0%;
+    width: 120px;
+}
+
+.navbar a:hover {
+    color:#72A0C1;
+    padding: 8px 40px 5px 23px;
+    background-color: #fff;
+}
+
+.background {
+    background-color: #fff;
+    margin-left:10%;
+    padding:1px 16px;
+    height:100%;
+}
+
+.credentials-container {
+    background-color: #377eb1;
+    padding: 20px;
+    margin: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #333;
+}
+
+.tab {
+    flex: 1;
+    text-align: center;
+    color: white;
+    border: none;
+    background: #333;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.tab.active {
+    background: #226a8b;
+}
+
+main {
+    padding: 20px;
+}
+
+#analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#analysis-table th, #analysis-table td {
+    background-color: #fff;
+    border: 1px solid #d3d3d3;
+    padding: 8px;
+    text-align: center;
+}
+
+#analysis-table th {
+    background-color: #fff;
+    color: rgb(0, 0, 0);
+}

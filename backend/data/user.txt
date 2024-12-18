@@ -1,0 +1,11 @@
+INSERT INTO users (user_id, name, email, password, signature)
+VALUES
+    ('MD001', 'Alice Johnson', 'alice.johnson@example.com', SHA2('password123', 256), SHA2('Alice Johnson', 256)),
+    ('MD002', 'Bob Smith', 'bob.smith@example.com', SHA2('securepass456', 256), SHA2('Bob Smith', 256)),
+    ('MD003', 'Charlie Brown', 'charlie.brown@example.com', SHA2('passw0rd789', 256), SHA2('Charlie Brown', 256)),
+    ('MD004', 'Diana Ross', 'diana.ross@example.com', SHA2('admin1234', 256), SHA2('Diana Ross', 256)),
+    ('MD005', 'Eve Torres', 'eve.torres@example.com', SHA2('mypass567', 256), SHA2('Eve Torres', 256));
+
+
+ALTER TABLE users
+ADD COLUMN password VARCHAR(255) NOT NULL AFTER email;

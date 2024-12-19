@@ -394,3 +394,18 @@ model_performance helps monitor ML model updates and performance.
 TODO:
 Check the connection of blockchain and the consensus
 API connection to the Frontend
+
+
+
+FrontEnd
+├── HomePage/
+│   └── homepage.css
+│   └── homepage.html
+│   └── script.js - for homepage
+├── LoginPage/
+│   ├── .jpg  
+│   ├── login.css
+│   └── login.html
+│   └── script.js - for loginpage
+│    
+

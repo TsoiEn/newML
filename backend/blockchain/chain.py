@@ -181,6 +181,8 @@ class Blockchain:
         except Exception as e:
             print(f"Error saving block to database: {e}")
 
+
+# for testing pusposes
 # Example usage:
 if __name__ == "__main__":
     blockchain = Blockchain()

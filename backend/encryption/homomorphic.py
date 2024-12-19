@@ -33,6 +33,7 @@ def decrypt_value(private_key, encrypted_value):
     decrypted_value = private_key.decrypt(encrypted_value)
     return decrypted_value
 
+#test purposes
 # Perform a homomorphic operation (e.g., addition) on encrypted data
 def homomorphic_addition(encrypted_value1, encrypted_value2, public_key):
     # Add the encrypted values directly without decryption

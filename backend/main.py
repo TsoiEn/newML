@@ -2,13 +2,43 @@ import hashlib
 from getpass import getpass
 import sys
 import os
+import pickle
+import joblib
+import pandas as pd
+from sklearn.exceptions import NotFittedError
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from data.data_config import db_cred
 from encryption.homomorphic import encrypt_value, generate_keys, decrypt_value, save_keys, load_keys
-import pickle
-import joblib
+from ml_model.ml_pipeline import fetch_encrypted_data, decrypt_dataframe_for_prediction, store_predictions_in_db
+from blockchain.chain import Blockchain
 from mappings import GENDER_MAP, FEVER_MAP, COUGH_MAP, FATIGUE_MAP, DIFFICULTY_BREATHING_MAP, BLOOD_PRESSURE_MAP, CHOLESTEROL_LEVEL_MAP
-import pandas as pd
+
+# Paths for model and preprocessor
+preprocessor_path = "/home/tsoien/github/newML/backend/ml_model/preprocessor.joblib"
+model_path = "/home/tsoien/github/newML/backend/ml_model/model.joblib"
+
+# Load Preprocessor and Model
+try:
+    preprocessor = joblib.load(preprocessor_path)
+    print("Preprocessor loaded successfully.")
+except Exception as e:
+    print(f"Error loading preprocessor: {e}")
+    preprocessor = None
+
+try:
+    model = joblib.load(model_path)
+    print("Model loaded successfully.")
+except Exception as e:
+    print(f"Error loading model: {e}")
+    model = None
+
+if preprocessor is None or model is None:
+    print("Error: Preprocessor or model not loaded. Exiting...")
+    sys.exit(1)
+
+# Initialize Blockchain
+blockchain = Blockchain()
 
 # User login function
 def user_login(cursor):
@@ -96,9 +126,9 @@ def load_or_generate_keys():
     return public_key, private_key
 
 # Add patient function
-def add_patient(cursor,connection, public_key):
+def add_patient(cursor, connection, public_key, validator_name, signature):
     print("\nAdding a new patient...")
-    
+
     # Get user inputs
     disease = input("Enter Disease: ")
     gender = input("Enter Gender (Male/Female): ").capitalize()
@@ -109,7 +139,7 @@ def add_patient(cursor,connection, public_key):
     age = int(input("Enter Age (integer): "))
     blood_pressure = input("Blood Pressure (Low/Normal/High): ").capitalize()
     cholesterol_level = input("Cholesterol Level (Low/Normal/High): ").capitalize()
-    outcome_Variable = input("Outcome Variable (Positive/Negative): ").capitalize()
+    outcome_variable = input("Outcome Variable (Positive/Negative): ").capitalize()
 
     # Map inputs to numerical values
     gender = GENDER_MAP.get(gender)
@@ -146,11 +176,26 @@ def add_patient(cursor,connection, public_key):
             encrypted_age,
             encrypted_blood_pressure,
             encrypted_cholesterol_level,
-            outcome_Variable,
+            outcome_variable,
         ),
     )
     connection.commit()
-    print("Patient data added successfully!")
+
+    # Add data to blockchain
+    patient_data = {
+        "Disease": disease,
+        "Gender": gender,
+        "Fever": fever,
+        "Cough": cough,
+        "Fatigue": fatigue,
+        "Difficulty_Breathing": difficulty_breathing,
+        "Age": age,
+        "Blood_Pressure": blood_pressure,
+        "Cholesterol_Level": cholesterol_level,
+        "Outcome_Variable": outcome_variable
+    }
+    blockchain.add_block(patient_data, validator_name, signature)
+    print("Patient data added successfully and recorded on the blockchain!")
 
 # Main CLI Menu
 def main():
@@ -158,6 +203,8 @@ def main():
     cursor = connection.cursor()
 
     user = user_login(cursor)
+    validator_name = "MD001"
+    signature = "4fa8c1cdf83eb36e391f810620bfe090be6d41177e9d5dafcdde9de957fd3460"  # Using email as part of the signature
 
     public_key, private_key = load_or_generate_keys()
 
@@ -167,16 +214,58 @@ def main():
 
         print("\nOptions:")
         print("[1] Add patient")
+        print("[2] Run ML pipeline for predictions")
         print("[0] Log out")
+
         choice = input("Select an option: ")
 
         if choice == '1':
-            add_patient(cursor, connection, public_key)
+            # Add a new patient and record on the blockchain
+            add_patient(cursor, connection, public_key, validator_name, signature)
+
+        elif choice == '2':
+            # Run ML pipeline for predictions
+            query = "SELECT * FROM disease_data WHERE Prediction_Variable IS NULL;"
+            encrypted_data = fetch_encrypted_data(query)
+
+            if encrypted_data is not None and not encrypted_data.empty:
+                print("Encrypted data fetched successfully.")
+                decrypted_data = decrypt_dataframe_for_prediction(encrypted_data)
+
+                if decrypted_data is not None:
+                    print("Decryption completed successfully.")
+
+                    try:
+                        X_to_predict = decrypted_data.drop(
+                            columns=["Outcome_Variable", "Prediction_Variable", "id"], 
+                            errors="ignore"
+                        )
+
+                        X_preprocessed = preprocessor.transform(X_to_predict)
+                        predictions = model.predict(X_preprocessed)
+
+                        print("Predictions completed:", predictions)
+
+                        store_predictions_in_db(
+                            ids=encrypted_data["id"], 
+                            predictions=predictions
+                        )
+                    except NotFittedError:
+                        print("Error: The model or preprocessor is not fitted. Please check your ML pipeline setup.")
+                    except Exception as e:
+                        print(f"Error during prediction or preprocessing: {e}")
+                else:
+                    print("Failed to decrypt data.")
+            else:
+                print("No data available for prediction.")
+
         elif choice == '0':
             print("Logging out...")
             break
+
         else:
             print("Invalid option. Try again.")
+
 
     cursor.close()
     connection.close()
